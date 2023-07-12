@@ -1,0 +1,25 @@
+.my-footer {
+  height: 5em;
+  background-color: #163b65;
+  margin-top: 1.5em;
+  padding: 1em;
+  color: #FFFFFF;
+}
+
+.room-image {
+  max-width: 50%;
+}
+
+/* override styles here */
+.notie-container {
+  box-shadow: none;
+}
+
+.datepicker {
+  z-index: 1000;
+}
+
+div:where(.swal2-container) .swal2-html-container {
+  overflow: hidden !important; 
+  z-index: 2 !important;
+}
