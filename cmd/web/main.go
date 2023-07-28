@@ -7,15 +7,16 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/ostaten/bookings/pkg/config"
-	"github.com/ostaten/bookings/pkg/handlers"
-	"github.com/ostaten/bookings/pkg/render"
+	"github.com/ostaten/bookings/internal/config"
+	"github.com/ostaten/bookings/internal/handlers"
+	"github.com/ostaten/bookings/internal/render"
 )
 
-const portNumber = ":8080"
+const portNumber = "localhost:8080"
 var app config.AppConfig
 var session *scs.SessionManager
 
+//Note: to run on Windows, do "go run ./cmd/web/."
 func main() {
 	app.InProduction = false
 

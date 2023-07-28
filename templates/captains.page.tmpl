@@ -1,0 +1,89 @@
+{{template "base" .}}
+
+{{define "content"}}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <img src="../static/images/captains-quarters.png" class="img-fluid img-thumbnail mx-auto d-block room-image">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h1 class="text-center mt-4">Captain's Quarters</h1>
+        <p>
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+          Your home away from home, set on the majestic waters of the Pacific
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
+      </div>
+    </div>
+  </div>
+{{end}}
+
+{{define "js"}}
+  <script>
+    document.getElementById("check-availability-button").addEventListener("click", function(){
+            let html = `
+            <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+              <div class="row">
+                <div class="col">
+                  <div class="row" id="reservation-dates-modal">
+                    <div class="col">
+                      <input required disabled class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                    </div>
+                    <div class="col">
+                      <input required disabled class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            `
+            attention.custom({
+              msg: html, 
+              title: "Choose your dates",
+
+              willOpen: () => {
+                const elem = document.getElementById("reservation-dates-modal");
+                const rp = new DateRangePicker(elem, {
+                  format: 'yyyy-mm-dd',
+                  showOnFocus: true
+                })							
+              },
+
+              didOpen: () => {
+                document.getElementById("start").removeAttribute('disabled');
+                document.getElementById("end").removeAttribute('disabled');
+              },
+              
+              callback: async function(result) {
+                console.log('called');
+
+                let form = document.getElementById("check-availability-form");
+                let formData = new FormData(form);
+                formData.append("csrf_token", "{{.CSRFToken}}");
+
+
+                const response = await fetch('/search-availability-json', {
+                  method: "post",
+                  body: formData
+                });
+                const data = await response.json();
+                console.log(response);
+                console.log(data.ok);
+                console.log(data.message);
+              }
+            });
+		});  
+  </script>
+{{end}}

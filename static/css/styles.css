@@ -16,7 +16,7 @@
 }
 
 .datepicker {
-  z-index: 1000;
+  z-index: 10000;
 }
 
 div:where(.swal2-container) .swal2-html-container {
