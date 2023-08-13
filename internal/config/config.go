@@ -9,7 +9,7 @@ import (
 //config might be accessed from any part of application
 //should not import anything; only should be imported
 
-// AppConfig hold the application config
+// AppConfig holds the application config
 type AppConfig struct {
 	UseCache      bool
 	TemplateCache map[string]*template.Template

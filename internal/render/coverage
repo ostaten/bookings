@@ -1,0 +1,23 @@
+mode: set
+github.com/ostaten/bookings/internal/render/render.go:25.40,27.2 1 1
+github.com/ostaten/bookings/internal/render/render.go:29.84,35.2 5 1
+github.com/ostaten/bookings/internal/render/render.go:38.105,40.18 2 1
+github.com/ostaten/bookings/internal/render/render.go:40.18,42.3 1 0
+github.com/ostaten/bookings/internal/render/render.go:42.8,44.3 1 1
+github.com/ostaten/bookings/internal/render/render.go:46.2,47.9 2 1
+github.com/ostaten/bookings/internal/render/render.go:47.9,49.3 1 1
+github.com/ostaten/bookings/internal/render/render.go:51.2,59.16 5 1
+github.com/ostaten/bookings/internal/render/render.go:59.16,62.3 2 0
+github.com/ostaten/bookings/internal/render/render.go:63.2,63.12 1 1
+github.com/ostaten/bookings/internal/render/render.go:66.67,71.16 3 1
+github.com/ostaten/bookings/internal/render/render.go:71.16,73.3 1 0
+github.com/ostaten/bookings/internal/render/render.go:76.2,76.29 1 1
+github.com/ostaten/bookings/internal/render/render.go:76.29,79.17 3 1
+github.com/ostaten/bookings/internal/render/render.go:79.17,81.4 1 0
+github.com/ostaten/bookings/internal/render/render.go:83.3,84.17 2 1
+github.com/ostaten/bookings/internal/render/render.go:84.17,86.4 1 0
+github.com/ostaten/bookings/internal/render/render.go:88.3,88.23 1 1
+github.com/ostaten/bookings/internal/render/render.go:88.23,90.18 2 1
+github.com/ostaten/bookings/internal/render/render.go:90.18,92.5 1 0
+github.com/ostaten/bookings/internal/render/render.go:94.3,94.21 1 1
+github.com/ostaten/bookings/internal/render/render.go:96.2,96.21 1 1
