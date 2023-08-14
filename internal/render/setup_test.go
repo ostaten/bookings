@@ -2,10 +2,12 @@ package render
 
 import (
 	"encoding/gob"
+	"log"
 	"net/http"
 	"os"
 	"testing"
 	"time"
+
 	"github.com/alexedwards/scs/v2"
 	"github.com/ostaten/bookings/internal/config"
 	"github.com/ostaten/bookings/internal/models"
@@ -20,6 +22,12 @@ func TestMain(m *testing.M) {
 
 	//change this to true when in production
 	testApp.InProduction = false
+
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate)
+	testApp.InfoLog = infoLog
+
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	testApp.ErrorLog = errorLog
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour 

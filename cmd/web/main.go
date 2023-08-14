@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
+
 	"github.com/alexedwards/scs/v2"
 	"github.com/ostaten/bookings/internal/config"
 	"github.com/ostaten/bookings/internal/handlers"
+	"github.com/ostaten/bookings/internal/helpers"
 	"github.com/ostaten/bookings/internal/models"
 	"github.com/ostaten/bookings/internal/render"
 )
@@ -16,8 +19,14 @@ import (
 const portNumber = "localhost:8080"
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 //Note: to run on Windows, do "go run ./cmd/web/."
+// or "go run ./cmd/web/main.go ./cmd/web/routes.go ./cmd/web/middleware.go"
+// OR "./run.bat"
+// Autoformat: "alt + shift + f"
+//run all tests: "go test -v ./..."
 func main() {
 	err := run()
 
@@ -41,6 +50,12 @@ func run() error {
 	//change this to true when in production
 	app.InProduction = false
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour 
 	session.Cookie.Persist = true
@@ -60,7 +75,8 @@ func run() error {
 	app.UseCache = false
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
-
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
+
 	return nil
 }

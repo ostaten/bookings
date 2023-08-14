@@ -57,7 +57,7 @@ func TestForm_Has(t *testing.T) {
 	r := httptest.NewRequest("POST", "/whatever", nil)
 	form := New(r.PostForm)
 
-	isValid := form.Has("a", r)
+	isValid := form.Has("a")
 	if isValid {
 		t.Error("got valid when should have taken empty as false")
 	}
@@ -68,7 +68,7 @@ func TestForm_Has(t *testing.T) {
 	r.PostForm = postedData
 	form = New(r.PostForm)
 
-	isValid = form.Has("c", r)
+	isValid = form.Has("c")
 	if !isValid {
 		t.Error("got invalid when should have seen 's'")
 	}
@@ -82,14 +82,24 @@ func TestForm_MinLength(t *testing.T) {
 
 	form := New(r.PostForm)
 
-	isValid := form.MinLength("a", 1, r)
+	isValid := form.MinLength("a", 1)
 	if !isValid {
 		t.Error("got invalid when equal length should work")
 	}
 
-	isValid = form.MinLength("a", 2, r)
+	isError := form.Errors.Get("a")
+	if isError != "" {
+		t.Error("should not have an error, but got one")
+	}
+
+	isValid = form.MinLength("a", 2)
 	if isValid {
 		t.Error("got valid when should have been exception to length")
+	}
+
+	isError = form.Errors.Get("a")
+	if isError == "" {
+		t.Error("should have an error, but did not get one")
 	}
 }
 
@@ -97,10 +107,8 @@ func TestForm_IsEmail(t *testing.T) {
 	postedData := url.Values{}
 
 	postedData.Add("b", "b@gmail.com")
-	r := httptest.NewRequest("POST", "/whatever", nil)
-	r.PostForm = postedData
 
-	form := New(r.PostForm)
+	form := New(postedData)
 
 	form.IsEmail("b")
 	if !form.Valid() {
@@ -108,10 +116,8 @@ func TestForm_IsEmail(t *testing.T) {
 	}
 
 	postedData.Add("a", "a")
-	r = httptest.NewRequest("POST", "/whatever", nil)
-	r.PostForm = postedData
 
-	form = New(r.PostForm)
+	form = New(postedData)
 
 	form.IsEmail("a")
 	if form.Valid() {
