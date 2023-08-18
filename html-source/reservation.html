@@ -223,7 +223,8 @@
 							const elem = document.getElementById("reservation-dates-modal");
 							const rp = new DateRangePicker(elem, {
 								format: 'yyyy-mm-dd',
-								showOnFocus: true
+								showOnFocus: true,
+								minDate: new Date(),
 							})							
 						},
 						preConfirm: () => {

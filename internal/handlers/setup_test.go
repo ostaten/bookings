@@ -15,11 +15,13 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/justinas/nosurf"
 	"github.com/ostaten/bookings/internal/config"
+	"github.com/ostaten/bookings/internal/driver"
 	"github.com/ostaten/bookings/internal/models"
 	"github.com/ostaten/bookings/internal/render"
 )
 
 var app config.AppConfig
+var db driver.DB
 var session *scs.SessionManager
 var pathToTemplates = "./../../templates"
 var functions = template.FuncMap{
@@ -56,10 +58,10 @@ func getRoutes() http.Handler {
 	app.TemplateCache = tc
 
 	app.UseCache = true
-	repo := NewRepo(&app)
+	repo := NewRepo(&app, &db)
 	NewHandlers(repo)
 
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 
 	mux := chi.NewRouter()
 
