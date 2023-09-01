@@ -1,8 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
-//User is the user model, primarily represented on backend database
+// User is the user model, primarily represented on backend database
 type User struct {
 	ID          int
 	FirstName   string
@@ -14,7 +16,7 @@ type User struct {
 	UpdatedAt   time.Time
 }
 
-//Room is the rooms model, primarily represented on backend database
+// Room is the rooms model, primarily represented on backend database
 type Room struct {
 	ID        int
 	RoomName  string
@@ -22,7 +24,7 @@ type Room struct {
 	UpdatedAt time.Time
 }
 
-//Restriction is the restrictions model, primarily represented on backend database
+// Restriction is the restrictions model, primarily represented on backend database
 type Restriction struct {
 	ID              int
 	RestrictionName string
@@ -30,7 +32,7 @@ type Restriction struct {
 	UpdatedAt       time.Time
 }
 
-//Reservation is the reservations model, primarily represented on backend database
+// Reservation is the reservations model, primarily represented on backend database
 type Reservation struct {
 	ID        int
 	FirstName string
@@ -42,11 +44,11 @@ type Reservation struct {
 	RoomID    int
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	Room     Room
+	Room      Room
 }
 
-//RoomRestriction is another restrictions model that encapsulates
-//reservations and restrictions for a particular room, primarily represented on backend database
+// RoomRestriction is another restrictions model that encapsulates
+// reservations and restrictions for a particular room, primarily represented on backend database
 type RoomRestriction struct {
 	ID            int
 	StartDate     time.Time
@@ -59,4 +61,13 @@ type RoomRestriction struct {
 	Rooms         Room
 	Reservation   Reservation
 	Restriction   Restriction
+}
+
+// Maildata holds an email message
+type MailData struct {
+	To       string
+	From     string
+	Subject  string
+	Content  string
+	Template string
 }

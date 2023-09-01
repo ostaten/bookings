@@ -28,6 +28,7 @@ var errorLog *log.Logger
 // OR "./run.bat"
 // Autoformat: "alt + shift + f"
 //run all tests: "go test -v ./..."
+// test coverage: "go test -coverprofile=coverage; go tool cover -html=coverage "
 func main() {
 	db, err := run()
 	
@@ -35,6 +36,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.SQL.Close()
+
+	defer close(app.MailChan)
+
+	fmt.Println("Starting mail listener . . .")
+	listenForMail()
+
 	fmt.Printf("Starting application on port %s", portNumber)
 	srv := &http.Server {
 		Addr: portNumber,
@@ -50,6 +57,9 @@ func run() (*driver.DB, error) {
 	gob.Register(models.User{})
 	gob.Register(models.Room{})
 	gob.Register(models.Restriction{})
+
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
 
 	//change this to true when in production
 	app.InProduction = false

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/alexedwards/scs/v2"
+	"github.com/ostaten/bookings/internal/models"
 )
 
 //config might be accessed from any part of application
@@ -18,4 +19,5 @@ type AppConfig struct {
 	ErrorLog      *log.Logger
 	InProduction  bool
 	Session       *scs.SessionManager
+	MailChan	chan models.MailData
 }

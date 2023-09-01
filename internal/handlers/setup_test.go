@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"testing"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
@@ -15,20 +16,16 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/justinas/nosurf"
 	"github.com/ostaten/bookings/internal/config"
-	"github.com/ostaten/bookings/internal/driver"
 	"github.com/ostaten/bookings/internal/models"
 	"github.com/ostaten/bookings/internal/render"
 )
 
 var app config.AppConfig
-var db driver.DB
 var session *scs.SessionManager
 var pathToTemplates = "./../../templates"
-var functions = template.FuncMap{
+var functions = template.FuncMap{}
 
-}
-
-func getRoutes() http.Handler {
+func TestMain(m *testing.M) {
 	//what am I going to put in the session
 	gob.Register(models.Reservation{})
 
@@ -50,6 +47,12 @@ func getRoutes() http.Handler {
 
 	app.Session = session
 
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
+	defer close(mailChan)
+
+	listenForMail()
+
 	tc, err := CreateTestTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
@@ -58,10 +61,24 @@ func getRoutes() http.Handler {
 	app.TemplateCache = tc
 
 	app.UseCache = true
-	repo := NewRepo(&app, &db)
+	repo := NewTestRepo(&app)
 	NewHandlers(repo)
 
 	render.NewRenderer(&app)
+
+	os.Exit(m.Run())
+}
+
+func listenForMail() {
+	go func(){
+		for {
+			_ = <- app.MailChan
+		}
+	}()
+}
+
+func getRoutes() http.Handler {
+	
 
 	mux := chi.NewRouter()
 
