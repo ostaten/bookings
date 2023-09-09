@@ -27,6 +27,7 @@ var errorLog *log.Logger
 //Note: to run on Windows, do "go run ./cmd/web/."
 // or "go run ./cmd/web/main.go ./cmd/web/routes.go ./cmd/web/middleware.go"
 // OR "./run.bat"
+// connect via cloud: "./bookings -dbname=bookings -dbuser=postgres -dbpass="
 // Autoformat: "alt + shift + f"
 //run all tests: "go test -v ./..."
 // test coverage: "go test -coverprofile=coverage; go tool cover -html=coverage "
